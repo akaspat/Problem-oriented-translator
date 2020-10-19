@@ -1,12 +1,14 @@
 package com.translator.koryagin;
 
 import javax.swing.*;
+import javax.swing.plaf.FontUIResource;
 import java.awt.*;
 
 public class Gui {
     private JFrame frame;
     private JTextArea inputAreaText;
     private JTextArea outputAreaText;
+    private JButton buildBtn;
 
     public Gui() {
         frame = new JFrame();
@@ -47,6 +49,11 @@ public class Gui {
         outputArea.add(new JScrollPane(outputAreaText));
         frame.getContentPane().add(BorderLayout.EAST, outputArea);
 
-
+        // BUILD BTN
+        buildBtn = new JButton("Build");
+        buildBtn.setFont(new Font("serif", Font.BOLD, 40));
+        JPanel buildArea = new JPanel();
+        buildArea.add(buildBtn);
+        frame.getContentPane().add(BorderLayout.CENTER, buildArea);
     }
 }
