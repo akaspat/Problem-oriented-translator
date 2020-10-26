@@ -3,6 +3,7 @@ package com.translator.koryagin;
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
 import java.awt.*;
+import java.util.List;
 
 public class Gui {
     private JFrame frame;
@@ -23,7 +24,7 @@ public class Gui {
      */
     private void buildWindow(){
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1000, 800);
+        frame.setSize(1400, 1000);
 
         // INPUT AREA
         // create and place input area on the left side
@@ -33,6 +34,7 @@ public class Gui {
         // word wrapping to a new line
         inputAreaText.setLineWrap(true);
         inputAreaText.setWrapStyleWord(true);
+        inputAreaText.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 
         inputArea.add(new JScrollPane(inputAreaText));
         frame.getContentPane().add(BorderLayout.WEST, inputArea);
@@ -41,6 +43,8 @@ public class Gui {
         // create and place input area on the right side
         JPanel outputArea = new JPanel();
         outputAreaText = new JTextArea(frame.getHeight() / 16, frame.getWidth() / 30);
+        outputAreaText.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+
 
         // word wrapping to a new line
         outputAreaText.setLineWrap(true);
@@ -55,5 +59,12 @@ public class Gui {
         JPanel buildArea = new JPanel();
         buildArea.add(buildBtn);
         frame.getContentPane().add(BorderLayout.CENTER, buildArea);
+    }
+    public void setInputAreaText(List<String> lines){
+        inputAreaText.removeAll();
+        for (String line : lines){
+            inputAreaText.append(line);
+            inputAreaText.append("\n");
+        }
     }
 }
