@@ -3,12 +3,17 @@ package com.translator.koryagin;
 public abstract class Leksem {
 
     protected abstract void check() throws LeksemException;
-    public void isCorrect() {
+
+    public boolean isCorrect(boolean showError) {
         try{
             check();
         } catch (LeksemException ex){
-            System.out.println(ex.getMessage());
+            if (showError) {
+                System.out.println(ex.getMessage());
+            }
+            return false;
         }
+        return true;
     }
 
     protected boolean isLetter(char s){

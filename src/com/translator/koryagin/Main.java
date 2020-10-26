@@ -18,29 +18,5 @@ public class Main {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-
-        Variable var = new Variable("а234");
-        var.isCorrect();
-
-        MInteger integer = new MInteger("123");
-        integer.isCorrect();
-
-        Bracket bracket = new Bracket('f');
-        bracket.isCorrect();
-
-        bracket = new Bracket('(');
-        bracket.isCorrect();
-
-        bracket = new Bracket(')');
-        bracket.isCorrect();
-
-        bracket = new Bracket(')');
-        bracket.isCorrect();
-
-        bracket = new Bracket('(');
-        bracket.isCorrect();
-
-        bracket = new Bracket(')');
-        bracket.isCorrect();
     }
 }

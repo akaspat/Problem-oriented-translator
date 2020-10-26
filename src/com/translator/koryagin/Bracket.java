@@ -14,14 +14,16 @@ public class Bracket extends Leksem {
     @Override
     protected void check() throws Leksem.LeksemException {
         if (!(bracket == '(' || bracket == ')')){
-            throw new Leksem.LeksemException("[Скобки] ожидался символ скобки вместо '" + bracket + "'");
+            String error_text = String.format("[Скобки] ожидался символ скобки вместо '%s'", bracket);
+            throw new Leksem.LeksemException(error_text);
         }
 
         if (bracket == '(') openBracketCounter++;
         else closeBracketCounter++;
 
         if (openBracketCounter != closeBracketCounter){
-            throw new Leksem.LeksemException("[Скобки] неравное число открывающих и закрывающих скобок");
+            String error_text = "[Скобки] неравное число открывающих и закрывающих скобок";
+            throw new Leksem.LeksemException(error_text);
         }
     }
 }

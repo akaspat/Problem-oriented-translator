@@ -20,8 +20,7 @@ public class MInteger extends Leksem{
         for (int i=0; i < integer.length(); i++){
             char symbol = integer.charAt(i);
             if (!isDigit(symbol)){
-                String error_text = "[Целое " + integer + " ]"
-                        + " ожидалась цифра вместо " + symbol;
+                String error_text = String.format("[Целое] ожидалась цифра вместо %s", integer);
                 throw new LeksemException(error_text);
             }
         }

@@ -25,7 +25,7 @@ public class Variable extends Leksem{
         // first symbol must be letter
         char symbol = var.charAt(0);
         if (!isLetter(symbol)) {
-            String error_text = "[Переменная " + var + " ] в качестве первого символа ожидалась буква вместо '" + symbol + "'";
+            String error_text = String.format("[Переменная] в качестве первого символа ожидалась буква вместо '%s'", symbol);
             throw new LeksemException(error_text);
         }
 
@@ -33,7 +33,7 @@ public class Variable extends Leksem{
         for (int i=1; i < var.length(); i++){
             symbol = var.charAt(i);
             if (!isDigit(symbol) && !isLetter(symbol)){
-                String error_text = "[Переменная " + var + " ] в качестве символа ожидалась буква или цифра вместо '" + symbol + "'";
+                String error_text = String.format("[Переменная] в качестве символа ожидалась буква или цифра вместо '%s", symbol);
                 throw new LeksemException(error_text);
             }
         }
