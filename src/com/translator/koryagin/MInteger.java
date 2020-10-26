@@ -14,31 +14,16 @@ public class MInteger extends Leksem{
     public void setIntegerString(String _int){ integer = _int; }
 
     @Override
-    protected void check() throws MIntegerException {
+    protected void check() throws LeksemException {
         if (integer.length() == 0) { return; }
 
         for (int i=0; i < integer.length(); i++){
             char symbol = integer.charAt(i);
             if (!isDigit(symbol)){
-                String error_text = "[Integer " + integer + " ]"
+                String error_text = "[Целое " + integer + " ]"
                         + " ожидалась цифра вместо " + symbol;
-                throw new MIntegerException(error_text);
+                throw new LeksemException(error_text);
             }
         }
-    }
-
-    @Override
-    public void isCorrect(){
-        try{
-            check();
-        }catch (MIntegerException ex){
-            System.out.println(ex.getMessage());
-        }
-    }
-
-    private class MIntegerException extends Exception {
-        private String message;
-        public MIntegerException(String m) { message = m; }
-        public String getMessage() {return message; }
     }
 }

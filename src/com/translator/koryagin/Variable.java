@@ -19,14 +19,14 @@ public class Variable extends Leksem{
     }
 
     @Override
-    protected void check() throws VariableException {
+    protected void check() throws LeksemException {
         if (var.length() == 0) { return; }
 
         // first symbol must be letter
         char symbol = var.charAt(0);
         if (!isLetter(symbol)) {
             String error_text = "[Переменная " + var + " ] в качестве первого символа ожидалась буква вместо '" + symbol + "'";
-            throw new VariableException(error_text);
+            throw new LeksemException(error_text);
         }
 
         // next must be symbol (letter or digit)
@@ -34,25 +34,8 @@ public class Variable extends Leksem{
             symbol = var.charAt(i);
             if (!isDigit(symbol) && !isLetter(symbol)){
                 String error_text = "[Переменная " + var + " ] в качестве символа ожидалась буква или цифра вместо '" + symbol + "'";
-                throw new VariableException(error_text);
+                throw new LeksemException(error_text);
             }
-        }
-    }
-
-    @Override
-    public void isCorrect(){
-        try{
-            check();
-        } catch (VariableException ex){
-            System.out.println(ex.getMessage());
-        }
-    }
-
-    private static class VariableException extends Exception{
-        private String message;
-        public VariableException(String m) { message = m; }
-        public String getMessage(){
-            return message;
         }
     }
 }

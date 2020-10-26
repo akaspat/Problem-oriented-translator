@@ -24,5 +24,23 @@ public class Main {
 
         MInteger integer = new MInteger("123");
         integer.isCorrect();
+
+        Bracket bracket = new Bracket('f');
+        bracket.isCorrect();
+
+        bracket = new Bracket('(');
+        bracket.isCorrect();
+
+        bracket = new Bracket(')');
+        bracket.isCorrect();
+
+        bracket = new Bracket(')');
+        bracket.isCorrect();
+
+        bracket = new Bracket('(');
+        bracket.isCorrect();
+
+        bracket = new Bracket(')');
+        bracket.isCorrect();
     }
 }

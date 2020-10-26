@@ -1,8 +1,15 @@
 package com.translator.koryagin;
 
 public abstract class Leksem {
-    public abstract void isCorrect();
-    protected abstract void check() throws Exception;
+
+    protected abstract void check() throws LeksemException;
+    public void isCorrect() {
+        try{
+            check();
+        } catch (LeksemException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
 
     protected boolean isLetter(char s){
         /*
@@ -20,5 +27,13 @@ public abstract class Leksem {
                 (48 - 57 dec code)
          */
         return (s >= 48 && s <= 57);
+    }
+
+    protected class LeksemException extends Exception{
+        protected String message;
+        public LeksemException(String m) { message = m; }
+        public String getMessage(){
+            return message;
+        }
     }
 }
