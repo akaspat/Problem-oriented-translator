@@ -7,7 +7,7 @@ package com.translator.koryagin;
     циф = 0 ! … ! 9 : (digit)
  */
 
-public class Variable {
+public class Variable extends Leksem{
     private String var;
 
     public Variable(String _var) {
@@ -18,7 +18,8 @@ public class Variable {
         var = _var;
     }
 
-    private void check() throws VariableException {
+    @Override
+    protected void check() throws VariableException {
         if (var.length() == 0) { return; }
 
         // first symbol must be letter
@@ -38,6 +39,7 @@ public class Variable {
         }
     }
 
+    @Override
     public void isCorrect(){
         try{
             check();
@@ -46,26 +48,8 @@ public class Variable {
         }
     }
 
-    private boolean isLetter(char s){
-        /*
-        UNICODE
-        Aа - Яя (04 10 - 04 4F hex code)
-        (1040 - 1103 dec code)
-        */
-        return (s >= 1040 && s <= 1103);
-    }
-
-    private boolean isDigit(char s){
-        /*
-        UNICODE
-        0 - 9   (00 30 - 00 39 hex code)
-                (48 - 57 dec code)
-         */
-        return (s >= 48 && s <= 57);
-    }
-
     private static class VariableException extends Exception{
-        String message;
+        private String message;
         public VariableException(String m) { message = m; }
         public String getMessage(){
             return message;

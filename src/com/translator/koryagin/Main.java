@@ -18,8 +18,11 @@ public class Main {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-        
+
         Variable var = new Variable("а234");
         var.isCorrect();
+
+        MInteger integer = new MInteger("123");
+        integer.isCorrect();
     }
 }
