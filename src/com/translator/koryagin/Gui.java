@@ -1,7 +1,6 @@
 package com.translator.koryagin;
 
 import javax.swing.*;
-import javax.swing.plaf.FontUIResource;
 import java.awt.*;
 import java.util.List;
 
@@ -60,8 +59,8 @@ public class Gui {
         buildArea.add(buildBtn);
         frame.getContentPane().add(BorderLayout.CENTER, buildArea);
     }
-    public void setInputAreaText(List<String> lines){
-        inputAreaText.removeAll();
+    public void setInputAreaText(List<String> lines, boolean clearPrevious){
+        if (!clearPrevious) inputAreaText.removeAll();
         for (String line : lines){
             inputAreaText.append(line);
             inputAreaText.append("\n");

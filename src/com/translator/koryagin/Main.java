@@ -1,6 +1,5 @@
 package com.translator.koryagin;
 
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,13 +11,15 @@ public class Main {
 
         // show program text on gui
         Path pathInputProgram = Path.of("files/program");
+        List<String> program = null;
         try {
-            List<String> program = Files.readAllLines(pathInputProgram);
+            program = Files.readAllLines(pathInputProgram);
             g.setInputAreaText(program, true);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-
-
+        
+        Variable var = new Variable("а234");
+        var.isCorrect();
     }
 }
