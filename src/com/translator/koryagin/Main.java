@@ -20,8 +20,10 @@ public class Main {
             System.out.println(e.getMessage());
         }
 
-        // check every line
-        // see program struct in files/program
+        /*
+         check every line
+         see program struct in files/program
+        */
 
         // check start
         String start = program.get(0);
@@ -30,9 +32,19 @@ public class Main {
         }
         program.remove(0);
 
-        // TODO: check header
+        // check header
         String header = program.get(0);
         String[] header_elements = header.split(" ");
+        if (!header_elements[0].equals("\"Метки\"")){
+            System.out.println("Ошибка. Ожидалось слово \"Метки\"");
+        }
+
+        // check every sign in header
+        Sign sign_checker = new Sign();
+        for (int i=1; i < header_elements.length; i++){
+            sign_checker.setSignString(header_elements[i]);
+            sign_checker.isCorrect(true);
+        }
 
         // collect operators
         ArrayList<String> operators = new ArrayList<>();

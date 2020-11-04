@@ -8,7 +8,10 @@ package com.translator.koryagin;
 public class Sign extends Leksem {
     private String sign;
 
+    public Sign() {};
     public Sign(String s) { sign = s; }
+
+    public void setSignString(String s) { sign = s; }
 
     @Override
     protected void check() throws LeksemException{
