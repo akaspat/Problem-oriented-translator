@@ -3,6 +3,7 @@ package com.translator.koryagin;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -24,21 +25,32 @@ public class Main {
 
         // check start
         String start = program.get(0);
-        if (program.get(0).equals("\"\"Программа\"\"")){
+        if (!start.equals("\"Программа\"")){
             System.out.println("Ошибка. В начале ожидалось \"Программа\"");
         }
         program.remove(0);
 
         // TODO: check header
+        String header = program.get(0);
+        String[] header_elements = header.split(" ");
 
-        // TODO; collect operators
+        // collect operators
+        ArrayList<String> operators = new ArrayList<>();
+        int index = 0;
+        String oper = program.get(index);
+        while ( !oper.equals("\"Конец программы\"") ){
+            operators.add(oper);
+            index++;
+            oper = program.get(index);
+        }
 
         // TODO: check operators
 
         // check ends
         // get index of last element
         int end = program.size() - 1;
-        if (program.get(end).equals("\"\"Конец программы\"\"")){
+        String end_str = program.get(end);
+        if (!end_str.equals("\"Конец программы\"")){
             System.out.println("Ошибка. В конце ожидалось \"Конец программы\"");
         }
         program.remove(end);
