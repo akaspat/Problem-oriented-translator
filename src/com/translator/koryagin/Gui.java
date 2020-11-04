@@ -59,6 +59,7 @@ public class Gui {
         buildArea.add(buildBtn);
         frame.getContentPane().add(BorderLayout.CENTER, buildArea);
     }
+
     public void setInputAreaText(List<String> lines, boolean clearPrevious){
         if (!clearPrevious) inputAreaText.removeAll();
         for (String line : lines){
