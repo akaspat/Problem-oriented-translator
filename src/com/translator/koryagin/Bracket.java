@@ -5,6 +5,7 @@ public class Bracket extends Leksem {
     public static int openBracketCounter = 0;
     public static int closeBracketCounter = 0;
 
+    public Bracket() {};
     public Bracket(char _bracket) {
         bracket = _bracket;
     }

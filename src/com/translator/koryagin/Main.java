@@ -45,6 +45,7 @@ public class Main {
             sign_checker.setSignString(header_elements[i]);
             sign_checker.isCorrect(true);
         }
+        program.remove(0);
 
         // collect operators
         ArrayList<String> operators = new ArrayList<>();
@@ -57,6 +58,33 @@ public class Main {
         }
 
         // TODO: check operators
+        for (String _operator : operators) {
+            String[] elements = _operator.split(" ");
+
+            // get MInteger (метка = цел)
+            MInteger metka = new MInteger(elements[0]);
+            metka.isCorrect(true);
+
+            // get ":"
+            if (!elements[1].equals(":")){
+                System.out.println(String.format("Ошибка. Ожидалось двоеточние вместо %s", elements[1]));
+            }
+
+            // get Variable (пер)
+            Variable var = new Variable(elements[2]);
+            var.isCorrect(true);
+
+            // get "="
+            if (!elements[3].equals("=")){
+                System.out.println(String.format("Ошибка. Ожидался \"=\" вместо %s", elements[3]));
+            }
+
+            // get CalculatePart (прав.часть)
+            String calPratString = "";
+            for (int i=4; i < elements.length; i++) { calPratString += elements[i]; }
+            CalculatePart cp = new CalculatePart(calPratString);
+            cp.isCorrect(true);
+        }
 
         // check ends
         // get index of last element

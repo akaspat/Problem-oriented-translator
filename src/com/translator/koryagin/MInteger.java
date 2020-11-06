@@ -8,6 +8,7 @@ package com.translator.koryagin;
 public class MInteger extends Leksem{
     String integer;
 
+    public MInteger() {};
     public MInteger(String _int){
         integer = _int;
     }

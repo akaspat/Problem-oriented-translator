@@ -10,9 +10,8 @@ package com.translator.koryagin;
 public class Variable extends Leksem{
     private String var;
 
-    public Variable(String _var) {
-        var = _var;
-    }
+    public Variable() {};
+    public Variable(String _var) { var = _var; }
 
     public void setVarString(String _var){
         var = _var;
