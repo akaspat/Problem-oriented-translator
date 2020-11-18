@@ -19,6 +19,7 @@ public class Variable extends Leksem{
 
     @Override
     protected void check() throws LeksemException {
+        var = var.replaceAll(" ", "");
         if (var.length() == 0) { return; }
 
         // first symbol must be letter

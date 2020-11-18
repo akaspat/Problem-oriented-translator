@@ -16,6 +16,7 @@ public class MInteger extends Leksem{
 
     @Override
     protected void check() throws LeksemException {
+        integer = integer.replaceAll(" ", "");
         if (integer.length() == 0) { return; }
 
         for (int i=0; i < integer.length(); i++){

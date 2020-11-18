@@ -13,7 +13,7 @@ import java.util.List;
 public class Gui {
     private JFrame frame;
     private JTextArea inputAreaText;
-    private JTextArea outputAreaText;
+    private static JTextArea outputAreaText;
     private JButton buildBtn;
     private ButtonActionListener btnListener;
     private List<String> program;
@@ -31,7 +31,7 @@ public class Gui {
      */
     private void buildWindow(){
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(700, 500);
+        frame.setSize(1000, 700);
 
         // INPUT AREA
         // create and place input area on the left side
@@ -64,7 +64,7 @@ public class Gui {
         buildBtn = new JButton("Build");
         btnListener = new ButtonActionListener();
         buildBtn.addActionListener(btnListener);
-        buildBtn.setFont(new Font("serif", Font.BOLD, 40));
+        buildBtn.setFont(new Font("serif", Font.BOLD, 35));
         JPanel buildArea = new JPanel();
         buildArea.add(buildBtn);
         frame.getContentPane().add(BorderLayout.CENTER, buildArea);
@@ -99,6 +99,12 @@ public class Gui {
 
     }
 
+    public static void showError(String errorMessage){
+        if (outputAreaText.getText().length() != 0) { return; }
+
+        outputAreaText.setText(errorMessage);
+    }
+
     public void checkAllProgram() {
         /*
          check every line
@@ -108,7 +114,7 @@ public class Gui {
         // check start
         String start = program.get(0);
         if (!start.equals("\"Программа\"")){
-            System.out.println("Ошибка. В начале ожидалось \"Программа\"");
+            showError("Ошибка. В начале ожидалось \"Программа\"");
         }
 
         program.remove(0);
@@ -117,7 +123,7 @@ public class Gui {
         String header = program.get(0);
         String[] header_elements = header.split(" ");
         if (!header_elements[0].equals("\"Метки\"")){
-            System.out.println("Ошибка. Ожидалось слово \"Метки\"");
+            showError("Ошибка. Ожидалось слово \"Метки\"");
         }
 
         // check every sign in header
@@ -139,31 +145,8 @@ public class Gui {
         }
 
         for (String _operator : operators) {
-            String[] elements = _operator.split(" ");
-
-            // get MInteger (метка = цел)
-            MInteger metka = new MInteger(elements[0]);
-            metka.isCorrect(true);
-
-            // get ":"
-            if (!elements[1].equals(":")){
-                System.out.println(String.format("Ошибка. Ожидалось двоеточние вместо %s", elements[1]));
-            }
-
-            // get Variable (пер)
-            Variable var = new Variable(elements[2]);
-            var.isCorrect(true);
-
-            // get "="
-            if (!elements[3].equals("=")){
-                System.out.println(String.format("Ошибка. Ожидался \"=\" вместо %s", elements[3]));
-            }
-
-            // get CalculatePart (прав.часть)
-            String calPratString = "";
-            for (int i=4; i < elements.length; i++) { calPratString += elements[i]; }
-            CalculatePart cp = new CalculatePart(calPratString);
-            cp.isCorrect(true);
+            Operator operator = new Operator(_operator);
+            operator.isCorrect(true);
         }
 
         // check ends
@@ -171,18 +154,24 @@ public class Gui {
         int end = program.size() - 1;
         String end_str = program.get(end);
         if (!end_str.equals("\"Конец программы\"")){
-            System.out.println("Ошибка. В конце ожидалось \"Конец программы\"");
+            showError("Ошибка. В конце ожидалось \"Конец программы\"");
         }
         program.remove(end);
 
         if (!program.isEmpty()){
-            System.out.println("Откуда о_О");
+            showError(String.format("Ошибка. Программа должна заканчиваться \"Конец программы\", вместо %s", program.get(0)));
         }
+
+        if (outputAreaText.getText().length() == 0){
+            showError("Программа корректна");
+        }
+
     }
 
     public class ButtonActionListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
+            outputAreaText.setText(null);
             parseProgramTextToPath(false);
             checkAllProgram();
         }

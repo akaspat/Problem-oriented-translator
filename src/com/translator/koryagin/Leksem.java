@@ -9,7 +9,7 @@ public abstract class Leksem {
             check();
         } catch (LeksemException ex){
             if (showError) {
-                System.out.println(ex.getMessage());
+                Gui.showError(ex.getMessage());
             }
             return false;
         }

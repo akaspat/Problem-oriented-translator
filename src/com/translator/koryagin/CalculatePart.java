@@ -5,12 +5,11 @@ package com.translator.koryagin;
  */
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 public class CalculatePart extends Leksem {
     private String calcPart;
+    private String tmp_calcPart;
 
     public CalculatePart() {};
     public CalculatePart(String cp) { calcPart = cp; }
@@ -21,7 +20,8 @@ public class CalculatePart extends Leksem {
     }
 
     private int posOfBinarySign(String s){
-        ArrayList<Integer> positions = new ArrayList<Integer>();
+        if (s.equals("")) return -1;
+        ArrayList<Integer> positions = new ArrayList<>();
 
         positions.add( (!s.contains("+")) ? s.length() : s.indexOf("+") );
         positions.add( (!s.contains("-")) ? s.length() : s.indexOf("-") );
@@ -40,26 +40,55 @@ public class CalculatePart extends Leksem {
         // от самых глубоких скобок - внаружу
         String expression = "";
         int openBracketPos = -1;
-        int closeBracketPos = calcPart.length();
-        for (int i=0; i < calcPart.length(); i++){
+        int closeBracketPos = tmp_calcPart.length();
+        for (int i=0; i < tmp_calcPart.length(); i++){
             // поиск самой правой открывающейся скобки
-            if (calcPart.charAt(i) == '(' && i > openBracketPos) { openBracketPos = i; }
-            if (calcPart.charAt(i) == ')' && closeBracketPos > i ) {
+            if (tmp_calcPart.charAt(i) == '(' && i > openBracketPos) { openBracketPos = i; }
+            if (tmp_calcPart.charAt(i) == ')' && closeBracketPos > i ) {
                 closeBracketPos = i;
                 break;
             }
         }
         if (openBracketPos != -1 && closeBracketPos != -1){
-            expression = calcPart.substring(openBracketPos + 1, closeBracketPos);
-        } else expression = calcPart;
+            expression = tmp_calcPart.substring(openBracketPos + 1, closeBracketPos);
+        } else expression = tmp_calcPart;
 
         // replace expression on 1
         String replaced = "(" + expression + ")";
-        calcPart = calcPart.replace(replaced, "1");
+        tmp_calcPart = tmp_calcPart.replace(replaced, "1");
         return expression;
     }
 
-    private void checkBlock(String block){
+    private void checkDigitSign(String block) throws LeksemException{
+        String[] elements = block.split("#");
+        // если вначале пробел - то знаки должны занимать четные позиции
+        if (elements[0].equals(" ") || elements[0].equals("")) {
+            for (int i=2; i < elements.length; i+= 2){
+                if (posOfBinarySign(elements[i]) != 0){
+                    String error_message = "В строке: " + calcPart.replaceAll("#", " ") + "\n";
+                    error_message += String.format("Ожидался арифметический знак между %s и %s", elements[i-1], elements[i+1]);
+                    throw new LeksemException(error_message);
+                }
+            }
+        }
+        // если начинается не с проблемы (а предполагается, что с цифры) , то знаки - на нечет поз.
+        else {
+            for (int i=1; i < elements.length; i+= 2){
+                if (posOfBinarySign(elements[i]) != 0){
+                    String error_message = "В строке: " + calcPart.replaceAll("#", " ") + "\n";
+                    error_message += "Ожидался арифметический знак: ";
+                    for (int j = 0; j <= i; j++) {
+                        if (elements[j] == "") { i++; }
+                        error_message = error_message + elements[j] + ' ';
+                    }
+                    throw new LeksemException(error_message);
+                }
+            }
+        }
+    }
+
+    private void checkBlock(String block) throws LeksemException {
+        block = block.replaceAll("#", "");
         // можем встретить унарные знаки: минус "-" или отрицание "!"
         if (isUnarySign(block.charAt(0))) {
             block = block.substring(1);
@@ -78,7 +107,9 @@ public class CalculatePart extends Leksem {
         MInteger m_int = new MInteger(block);
 
         if ( !(var.isCorrect(false) || m_int.isCorrect(false)) ){
-            System.out.println("Ошибка в блоке: " + block);
+            String message_error = "Ошибка в правой части: " + calcPart.replaceAll("#", " ") + "\n";
+            message_error += "В " + block + " ожидалась переменная или целое";
+            throw new LeksemException(message_error);
         }
     }
 
@@ -87,16 +118,18 @@ public class CalculatePart extends Leksem {
         System.out.println("Calculate part: " + calcPart);
 
         if (calcPart.charAt(calcPart.length() - 1) != ';'){
-            System.out.println("Ошибка. В конце ожидалось ;");
-            return;
+            String error_message = String.format("Ошибка в правой части %s. В конце ожидалось ;", calcPart.replaceAll("#", " "));
+            throw new LeksemException(error_message);
         }
         calcPart = calcPart.substring(0, calcPart.length() - 1);
         String exp;
 
+        tmp_calcPart = calcPart;
         // цикл проверки выражения в скобках
         do {
             exp = getRightestExpressionInBracket();
+            checkDigitSign(exp);
             checkBlock(exp);
-        }while (!calcPart.equals(exp));
+        }while (!tmp_calcPart.equals(exp));
     }
 }

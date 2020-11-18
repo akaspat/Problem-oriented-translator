@@ -18,9 +18,21 @@ public class Sign extends Leksem {
         Variable var = new Variable(sign);
         MInteger m_int = new MInteger(sign);
 
-        if (!var.isCorrect(false) && !m_int.isCorrect(false)){
-            String error_text = String.format("[Знак] ожидалась переменная или целое вместо %s", sign);
-            throw new LeksemException(error_text);
+        try {
+            var.check();
+            /*
+            if (!var.isCorrect(true) && !m_int.isCorrect(true)) {
+                String error_text = String.format("[Знак] ожидалась переменная или целое вместо %s", sign);
+                throw new LeksemException(error_text);
+            }
+            */
+        } catch (Exception ex){
+            try {
+                m_int.check();
+            } catch (Exception ex2){
+                String error_text = String.format("[Знак] ожидалась переменная или целое вместо %s", sign);
+                throw new LeksemException(error_text);
+            }
         }
     }
 }
